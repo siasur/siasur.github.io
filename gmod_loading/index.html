@@ -12,9 +12,380 @@ Accent: #98c74d
 
 <html>
   <head>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eulenhoehle TTT Loading</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+          --text: #ebf4dc;
+          --bg: #0b1005;
+          --primary: #7ba735;
+          --secondary: #283611;
+          --accent: #98c74d;
+          --ground: #1a270d;
+        }
+
+        * {
+          box-sizing: border-box;
+        }
+
+        html,
+        body {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          overflow: hidden;
+          background: var(--bg);
+          color: var(--text);
+          font-family: "DM Sans", "Segoe UI", sans-serif;
+        }
+
+        body {
+          position: relative;
+          display: grid;
+          place-items: center;
+          background:
+            radial-gradient(circle at 50% -36%, rgba(40, 54, 17, 0.75) 0%, rgba(40, 54, 17, 0.16) 44%, rgba(11, 16, 5, 0) 72%),
+            var(--bg);
+        }
+
+        .cave {
+          position: absolute;
+          inset: 2.5vh 17vw 0;
+          pointer-events: none;
+        }
+
+        .arch {
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          border: 4px solid rgba(40, 54, 17, 0.86);
+          border-bottom: none;
+          border-radius: 46% 46% 0 0 / 25% 25% 0 0;
+          background: transparent;
+        }
+
+        .arch.outer {
+          width: min(76vw, 1280px);
+          height: min(96vh, 980px);
+        }
+
+        .arch.inner {
+          top: 2.7%;
+          width: min(66vw, 1110px);
+          height: min(88vh, 900px);
+          border-width: 3px;
+        }
+
+        .stars {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+        }
+
+        .stars span {
+          position: absolute;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: color-mix(in oklab, var(--accent) 78%, #ffffff 22%);
+          box-shadow: 0 0 14px rgba(152, 199, 77, 0.45);
+          opacity: 0.75;
+          animation: pulse 4.5s ease-in-out infinite;
+        }
+
+        .stars span:nth-child(1) { top: 27%; left: 29%; animation-delay: 0.3s; }
+        .stars span:nth-child(2) { top: 31%; right: 26%; width: 7px; height: 7px; animation-delay: 1.1s; }
+        .stars span:nth-child(3) { top: 53%; left: 25%; width: 6px; height: 6px; animation-delay: 0.7s; }
+        .stars span:nth-child(4) { top: 50%; right: 20%; width: 6px; height: 6px; animation-delay: 1.9s; }
+        .stars span:nth-child(5) { top: 58%; left: 36%; width: 9px; height: 9px; animation-delay: 2.6s; }
+        .stars span:nth-child(6) { top: 55%; right: 34%; width: 10px; height: 10px; animation-delay: 3.4s; }
+
+        .card {
+          position: relative;
+          width: min(66vw, 980px);
+          min-height: min(78vh, 760px);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+          padding: clamp(26px, 4vw, 52px) clamp(24px, 5vw, 70px) clamp(22px, 4.3vw, 58px);
+          animation: rise 0.95s cubic-bezier(.2, .7, .2, 1) both;
+          z-index: 2;
+        }
+
+        .owl-emblem {
+          width: clamp(180px, 21vw, 286px);
+          height: auto;
+          display: block;
+          margin-top: clamp(8px, 1.2vw, 16px);
+          filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.35));
+        }
+
+        .brand {
+          text-align: center;
+          margin-top: clamp(12px, 1.5vw, 18px);
+        }
+
+        .brand h1 {
+          margin: 0;
+          font-family: "Fraunces", Georgia, serif;
+          font-weight: 700;
+          font-size: clamp(3.1rem, 7.5vw, 7.2rem);
+          line-height: 0.95;
+          letter-spacing: -0.02em;
+          text-shadow: 0 4px 26px rgba(0, 0, 0, 0.35);
+        }
+
+        .title-main {
+          color: var(--text);
+        }
+
+        .title-accent {
+          color: var(--accent);
+        }
+
+        .brand p {
+          margin: clamp(9px, 1.2vw, 16px) 0 0;
+          color: var(--primary);
+          font-size: clamp(0.82rem, 1.05vw, 1.16rem);
+          letter-spacing: 0.42em;
+          font-weight: 500;
+          text-transform: uppercase;
+        }
+
+        .loader {
+          width: 100%;
+          max-width: 760px;
+          margin-top: clamp(18px, 3.4vw, 56px);
+        }
+
+        .meta {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 16px;
+          font-size: clamp(0.94rem, 1.43vw, 1.72rem);
+        }
+
+        .map-value {
+          color: var(--accent);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 54vw;
+          display: inline-block;
+          vertical-align: bottom;
+        }
+
+        .percent {
+          font-weight: 700;
+        }
+
+        .progress {
+          width: 100%;
+          height: clamp(12px, 0.95vw, 18px);
+          border-radius: 999px;
+          background: var(--secondary);
+          margin-top: clamp(12px, 1.5vw, 22px);
+          overflow: hidden;
+        }
+
+        .bar {
+          width: 0%;
+          height: 100%;
+          border-radius: inherit;
+          background: var(--primary);
+          transition: width 240ms ease;
+        }
+
+        .status {
+          margin-top: 14px;
+          color: rgba(235, 244, 220, 0.84);
+          font-size: clamp(0.84rem, 1.02vw, 1rem);
+          letter-spacing: 0.05em;
+          min-height: 1.4em;
+        }
+
+        .ground {
+          position: absolute;
+          left: -6vw;
+          right: -6vw;
+          bottom: 0;
+          height: clamp(86px, 11vw, 184px);
+          background: var(--ground);
+          clip-path: polygon(0% 41%, 6% 37%, 15% 43%, 27% 39%, 39% 47%, 54% 40%, 67% 46%, 81% 39%, 93% 44%, 100% 38%, 100% 100%, 0% 100%);
+          z-index: 0;
+          opacity: 0.95;
+          transform: translateY(26%);
+        }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 0.3; transform: scale(1); }
+          50% { opacity: 0.95; transform: scale(1.32); }
+        }
+
+        @keyframes rise {
+          from {
+            opacity: 0;
+            transform: translateY(14px) scale(0.988);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        @media (max-width: 900px) {
+          .cave {
+            inset: 6vh 4vw 0;
+          }
+
+          .arch.outer {
+            width: 95vw;
+            height: 88vh;
+          }
+
+          .arch.inner {
+            width: 84vw;
+            height: 82vh;
+          }
+
+          .card {
+            width: min(92vw, 740px);
+            min-height: 70vh;
+            padding-left: clamp(18px, 6vw, 34px);
+            padding-right: clamp(18px, 6vw, 34px);
+            padding-bottom: clamp(20px, 7vw, 38px);
+          }
+
+          .meta {
+            font-size: clamp(0.95rem, 2.8vw, 1.4rem);
+          }
+
+          .map-value {
+            max-width: 48vw;
+          }
+        }
+    </style>
   </head>
-  <body style="background-color: #0b1005">
-    
+  <body>
+    <div class="cave" aria-hidden="true">
+      <div class="arch outer"></div>
+      <div class="arch inner"></div>
+    </div>
+
+    <div class="stars" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <main class="card" role="main" aria-label="Garry's Mod Loadingscreen">
+      <svg class="owl-emblem" viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" aria-label="Eulen Symbol">
+        <ellipse cx="160" cy="102" rx="98" ry="66" fill="#283611" />
+        <path d="M86 36 L112 21 L102 58 Z" fill="#283611" />
+        <path d="M234 36 L208 21 L218 58 Z" fill="#283611" />
+        <ellipse cx="122" cy="88" rx="33" ry="33" fill="#0b1005" stroke="#7ba735" stroke-width="4" />
+        <ellipse cx="198" cy="88" rx="33" ry="33" fill="#0b1005" stroke="#7ba735" stroke-width="4" />
+        <circle cx="122" cy="88" r="17" fill="#98c74d" />
+        <circle cx="198" cy="88" r="17" fill="#98c74d" />
+        <circle cx="129" cy="81" r="4" fill="#ebf4dc" />
+        <circle cx="205" cy="81" r="4" fill="#ebf4dc" />
+        <path d="M160 103 L146 128 L160 146 L174 128 Z" fill="#7ba735" />
+      </svg>
+
+      <section class="brand" aria-label="Server Branding">
+        <h1><span class="title-main">Eulenhöhle</span> <span class="title-accent">TTT</span></h1>
+        <p>Trouble in Terrorist Town</p>
+      </section>
+
+      <section class="loader" aria-label="Ladefortschritt">
+        <div class="meta">
+          <div>Lade Karte: <span class="map-value" id="mapName">ttt_[KARTENNAME]</span></div>
+          <div class="percent" id="progressText">0 %</div>
+        </div>
+        <div class="progress" aria-hidden="true">
+          <div class="bar" id="progressBar"></div>
+        </div>
+        <div class="status" id="statusText">Warte auf Serverdaten...</div>
+      </section>
+    </main>
+
+    <div class="ground" aria-hidden="true"></div>
+
+    <script>
+      (function () {
+        var filesTotal = 0;
+        var filesNeeded = 0;
+        var filesDownloadedFallback = 0;
+
+        var progressBar = document.getElementById("progressBar");
+        var progressText = document.getElementById("progressText");
+        var statusText = document.getElementById("statusText");
+        var mapName = document.getElementById("mapName");
+
+        function clamp(value, min, max) {
+          return Math.max(min, Math.min(max, value));
+        }
+
+        function mapFromPath(filePath) {
+          if (!filePath) {
+            return "ttt_[KARTENNAME]";
+          }
+
+          var normalized = String(filePath).replace(/\\/g, "/");
+          var match = normalized.match(/(?:^|\/)maps\/([^\/]+)\.bsp$/i);
+          if (match && match[1]) {
+            return match[1];
+          }
+          return mapName.textContent;
+        }
+
+        function renderProgress() {
+          var percent = 0;
+
+          if (filesTotal > 0) {
+            var done = clamp(filesTotal - filesNeeded, 0, filesTotal);
+            percent = Math.round((done / filesTotal) * 100);
+          } else if (filesDownloadedFallback > 0) {
+            percent = clamp(filesDownloadedFallback, 0, 100);
+          }
+
+          progressBar.style.width = percent + "%";
+          progressText.textContent = percent + " %";
+        }
+
+        window.SetFilesTotal = function (total) {
+          filesTotal = Number(total) || 0;
+          filesNeeded = filesTotal;
+          filesDownloadedFallback = 0;
+          renderProgress();
+        };
+
+        window.DownloadingFile = function (fileName) {
+          filesDownloadedFallback += 1;
+          mapName.textContent = mapFromPath(fileName);
+          statusText.textContent = "Lade Datei: " + fileName;
+          renderProgress();
+        };
+
+        window.SetStatusChanged = function (status) {
+          statusText.textContent = status || "Verbinde...";
+        };
+
+        window.SetFilesNeeded = function (needed) {
+          filesNeeded = Number(needed);
+          if (Number.isNaN(filesNeeded)) {
+            return;
+          }
+          filesNeeded = clamp(filesNeeded, 0, Math.max(filesTotal, 0));
+          renderProgress();
+        };
+
+        renderProgress();
+      })();
+    </script>
   </body>
 </html>
