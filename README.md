@@ -1,2 +1,6 @@
 # siasur.github.io
-Some static pages
+
+Static pages for:
+
+- A short personal introduction (`/index.html`)
+- Ongoing project notes (`/projects.html`)
