@@ -336,8 +336,8 @@ Accent: #98c74d
           if (filesTotal > 0) {
             var done = clamp(filesTotal - filesNeeded, 0, filesTotal);
             percent = Math.round((done / filesTotal) * 100);
-          } else if (filesDownloadedFallback > 0) {
-            percent = clamp(filesDownloadedFallback, 0, 100);
+          } else {
+            percent = 98
           }
 
           progressBar.style.width = percent + "%";
@@ -347,12 +347,10 @@ Accent: #98c74d
         window.SetFilesTotal = function (total) {
           filesTotal = Number(total) || 0;
           filesNeeded = filesTotal;
-          filesDownloadedFallback = 0;
           renderProgress();
         };
 
         window.DownloadingFile = function (fileName) {
-          filesDownloadedFallback += 1;
           statusText.textContent = "Lade Datei: " + fileName;
           renderProgress();
         };
