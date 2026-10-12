@@ -330,19 +330,6 @@ Accent: #98c74d
           return Math.max(min, Math.min(max, value));
         }
 
-        function mapFromPath(filePath) {
-          if (!filePath) {
-            return "ttt_[KARTENNAME]";
-          }
-
-          var normalized = String(filePath).replace(/\\/g, "/");
-          var match = normalized.match(/(?:^|\/)maps\/([^\/]+)\.bsp$/i);
-          if (match && match[1]) {
-            return match[1];
-          }
-          return mapName.textContent;
-        }
-
         function renderProgress() {
           var percent = 0;
 
@@ -366,13 +353,13 @@ Accent: #98c74d
 
         window.DownloadingFile = function (fileName) {
           filesDownloadedFallback += 1;
-          mapName.textContent = mapFromPath(fileName);
           statusText.textContent = "Lade Datei: " + fileName;
           renderProgress();
         };
 
         window.SetStatusChanged = function (status) {
           statusText.textContent = status || "Verbinde...";
+          renderProgress();
         };
 
         window.SetFilesNeeded = function (needed) {
@@ -383,6 +370,10 @@ Accent: #98c74d
           filesNeeded = clamp(filesNeeded, 0, Math.max(filesTotal, 0));
           renderProgress();
         };
+
+        window.GameDetails( servername, serverurl, mapname, maxplayers, steamid, gamemode, volume, language ) {
+          mapName.textContent = mapname;
+        }
 
         renderProgress();
       })();
